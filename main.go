@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"flag"
 	"fmt"
 	"io"
 	"log"
@@ -12,6 +13,9 @@ import (
 )
 
 func main() {
+	escape := flag.Bool("escape", false, "print escaped characters (Go syntax)")
+	flag.Parse()
+
 	runes := make(map[rune]bool)
 
 	r := bufio.NewReader(os.Stdin)
@@ -37,7 +41,11 @@ func main() {
 	sort.Sort(set)
 
 	for _, ch := range set {
-		fmt.Printf("%c", ch)
+		if *escape {
+			fmt.Printf("%q", ch)
+		} else {
+			fmt.Printf("%c", ch)
+		}
 	}
 
 	fmt.Printf("\n")
